@@ -25,24 +25,23 @@ const columns = [
 export default function DataTable({ fetchData }) {
   const [page, setPage] = React.useState(1);
   const [limit, setLimit] = React.useState(10);
+  const[pagedData , setPagedData] = React.useState([])
   const [count, setCount] = React.useState(null);
 
+
   React.useEffect(() => {
-    const getData = async () => {
-      const response = fetch(
-        `http://localhost:8000/api?page=${page}&limit=${limit}`
-      );
-  
-      const data = (await response).json();
-      console.log(data);
-    };
-    getData();
-  }, [page, limit]);
+    fetch(`http://localhost:8000/api?page=${page}&limit=${limit}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setPagedData(data.data);
+      })
+      ;
+  }, [page , limit]);
 
   
   const pageChangeHandler = () => {
 
-    
+    console.log(pagedData)
   };
 
   const limitChangeHandler = () => {};
